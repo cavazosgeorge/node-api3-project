@@ -1,5 +1,6 @@
 const express = require("express");
 const userRouter = require("./users/users-router");
+const { logger } = require("./middleware/middleware");
 const dotenv = require("dotenv");
 
 const server = express();
@@ -11,6 +12,7 @@ dotenv.config({
 
 // BODY PARSER
 server.use(express.json());
+server.use(logger);
 
 // IMPORT ROUTES
 server.use("/api/users", userRouter);
