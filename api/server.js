@@ -1,9 +1,10 @@
 const express = require("express");
-const userRouter = require("./users/users-router");
-const { logger } = require("./middleware/middleware");
 const dotenv = require("dotenv");
 
 const server = express();
+
+const { logger } = require("./middleware/middleware");
+const usersRouter = require("./users/users-router");
 
 // SETUP CONFIG FILE VARIABLES
 dotenv.config({
@@ -12,12 +13,14 @@ dotenv.config({
 
 // BODY PARSER
 server.use(express.json());
+
+// GLOBAL MIDDLEWARES AND EXPRESS ROUTER => USE HERE
 server.use(logger);
+server.use("/api/users", usersRouter);
 
 // IMPORT ROUTES
-server.use("/api/users", userRouter);
-// global middlewares and the user's router need to be connected here
 
+// TEST ENDPOINT
 server.get("/", (req, res) => {
   res.send(`<h2>Let's write some middleware!</h2>`);
 });
